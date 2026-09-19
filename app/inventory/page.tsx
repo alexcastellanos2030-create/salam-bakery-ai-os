@@ -1,183 +1,153 @@
 ﻿'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Ingredient } from '@/types/inventory';
 
-interface Item {
-  id: number;
-  nombre: string;
-  categoria: string;
-  stockActual: number;
-  stockMinimo: number;
-  unidad: string;
-}
+const initialIngredients: Ingredient[] = [
+  { id: '1', name: 'Harina de Trigo Hazaña', category: 'Harinas', stock: 150, unit: 'kg', minStock: 50, costPerUnit: 1.2 },
+  { id: '2', name: 'Levadura Fresca', category: 'Levaduras', stock: 8, unit: 'kg', minStock: 10, costPerUnit: 3.5 },
+  { id: '3', name: 'Mantequilla Sin Sal', category: 'Lácteos', stock: 25, unit: 'kg', minStock: 15, costPerUnit: 6.0 },
+];
 
 export default function InventoryPage() {
-  const [items, setItems] = useState<Item[]>([
-    { id: 1, nombre: 'Harina de Trigo Panificable', categoria: 'Insumo Base', stockActual: 150, stockMinimo: 50, unidad: 'kg' },
-    { id: 2, nombre: 'Levadura Fresca', categoria: 'Leudante', stockActual: 8, stockMinimo: 10, unidad: 'kg' },
-    { id: 3, nombre: 'Manteca Vegetal', categoria: 'Grasas', stockActual: 25, stockMinimo: 15, unidad: 'kg' },
-    { id: 4, nombre: 'Azúcar Refinada', categoria: 'Endulzante', stockActual: 40, stockMinimo: 20, unidad: 'kg' },
-    { id: 5, nombre: 'Sal Final Fine', categoria: 'Condimentos', stockActual: 12, stockMinimo: 5, unidad: 'kg' },
-  ]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>(initialIngredients);
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState<Ingredient['category']>('Harinas');
+  const [stock, setStock] = useState(0);
+  const [unit, setUnit] = useState<Ingredient['unit']>('kg');
+  const [minStock, setMinStock] = useState(0);
+  const [cost, setCost] = useState(0);
 
-  const [nombre, setNombre] = useState('');
-  const [categoria, setCategoria] = useState('Insumo Base');
-  const [stockActual, setStockActual] = useState('');
-  const [stockMinimo, setStockMinimo] = useState('');
-  const [unidad, setUnidad] = useState('kg');
-
-  const agregarInsumo = (e: React.FormEvent) => {
+  const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nombre || !stockActual || !stockMinimo) return;
+    if (!name) return;
 
-    const nuevoItem: Item = {
-      id: Date.now(),
-      nombre,
-      categoria,
-      stockActual: parseFloat(stockActual),
-      stockMinimo: parseFloat(stockMinimo),
-      unidad,
+    const newItem: Ingredient = {
+      id: Date.now().toString(),
+      name,
+      category,
+      stock,
+      unit,
+      minStock,
+      costPerUnit: cost,
     };
 
-    setItems([...items, nuevoItem]);
-    setNombre('');
-    setStockActual('');
-    setStockMinimo('');
+    setIngredients([...ingredients, newItem]);
+    setName('');
+    setStock(0);
+    setMinStock(0);
+    setCost(0);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6 md:p-10 font-sans">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-slate-800 gap-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <Link href="/" className="text-amber-400 hover:underline text-sm font-semibold">
-              ← Volver al Dashboard
-            </Link>
-          </div>
-          <h1 className="text-2xl font-black text-amber-400 mt-2">CONTROL DE INVENTARIO Y MATERIA PRIMA</h1>
-          <p className="text-xs text-slate-400">Salam Bakery AI-OS — Monitoreo de insumos en tiempo real</p>
-        </div>
+    <div className="p-6 max-w-6xl mx-auto space-y-8">
+      <header>
+        <h1 className="text-3xl font-black text-amber-500">Módulo de Inventario de Materia Prima</h1>
+        <p className="text-slate-400 text-sm">Control de stock e insumos para Panadería Salam</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-          <h2 className="text-lg font-bold text-amber-400 mb-4">Registrar Nuevo Insumo</h2>
-          <form onSubmit={agregarInsumo} className="space-y-4 text-sm">
-            <div>
-              <label className="block text-xs text-slate-400 mb-1">Nombre del Insumo</label>
-              <input
-                type="text"
-                placeholder="Ej. Harina Integral"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-400"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs text-slate-400 mb-1">Categoría</label>
-              <select
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-400"
-              >
-                <option value="Insumo Base">Insumo Base</option>
-                <option value="Leudante">Leudante</option>
-                <option value="Grasas">Grasas</option>
-                <option value="Endulzante">Endulzante</option>
-                <option value="Condimentos">Condimentos</option>
-                <option value="Empaque">Empaque</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-slate-400 mb-1">Stock Actual</label>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={stockActual}
-                  onChange={(e) => setStockActual(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs text-slate-400 mb-1">Stock Mínimo</label>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={stockMinimo}
-                  onChange={(e) => setStockMinimo(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-400"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs text-slate-400 mb-1">Unidad de Medida</label>
-              <select
-                value={unidad}
-                onChange={(e) => setUnidad(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-400"
-              >
-                <option value="kg">Kilogramos (kg)</option>
-                <option value="gr">Gramos (gr)</option>
-                <option value="litros">Litros (L)</option>
-                <option value="unidades">Unidades</option>
-              </select>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-2 px-4 rounded transition mt-2"
-            >
-              + Agregar Insumo
-            </button>
-          </form>
+      {/* Formulario */}
+      <form onSubmit={handleAdd} className="bg-slate-900 border border-slate-800 p-4 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input
+          type="text"
+          placeholder="Nombre del insumo"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="bg-slate-800 border border-slate-700 p-2 rounded text-white"
+          required
+        />
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as Ingredient['category'])}
+          className="bg-slate-800 border border-slate-700 p-2 rounded text-white"
+        >
+          <option value="Harinas">Harinas</option>
+          <option value="Lácteos">Lácteos</option>
+          <option value="Levaduras">Levaduras</option>
+          <option value="Endulzantes">Endulzantes</option>
+          <option value="Otros">Otros</option>
+        </select>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            placeholder="Stock inicial"
+            value={stock || ''}
+            onChange={(e) => setStock(Number(e.target.value))}
+            className="bg-slate-800 border border-slate-700 p-2 rounded text-white w-full"
+            required
+          />
+          <select
+            value={unit}
+            onChange={(e) => setUnit(e.target.value as Ingredient['unit'])}
+            className="bg-slate-800 border border-slate-700 p-2 rounded text-white"
+          >
+            <option value="kg">kg</option>
+            <option value="g">g</option>
+            <option value="L">L</option>
+            <option value="unidades">unidades</option>
+          </select>
         </div>
+        <input
+          type="number"
+          placeholder="Stock mínimo"
+          value={minStock || ''}
+          onChange={(e) => setMinStock(Number(e.target.value))}
+          className="bg-slate-800 border border-slate-700 p-2 rounded text-white"
+          required
+        />
+        <input
+          type="number"
+          step="0.01"
+          placeholder="Costo por unidad ($)"
+          value={cost || ''}
+          onChange={(e) => setCost(Number(e.target.value))}
+          className="bg-slate-800 border border-slate-700 p-2 rounded text-white"
+          required
+        />
+        <button type="submit" className="bg-amber-500 hover:bg-amber-600 text-black font-bold p-2 rounded transition">
+          + Agregar Insumo
+        </button>
+      </form>
 
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-xl">
-          <h2 className="text-lg font-bold text-slate-100 mb-4">Materia Prima en Almacén</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="text-xs uppercase bg-slate-950 text-slate-400 border-b border-slate-800">
-                <tr>
-                  <th className="p-3">Insumo</th>
-                  <th className="p-3">Categoría</th>
-                  <th className="p-3">Stock</th>
-                  <th className="p-3">Estado</th>
+      {/* Tabla de Insumos */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <table className="w-full text-left text-sm text-slate-300">
+          <thead className="bg-slate-800 text-slate-400">
+            <tr>
+              <th className="p-3">Insumo</th>
+              <th className="p-3">Categoría</th>
+              <th className="p-3">Stock Actual</th>
+              <th className="p-3">Stock Mínimo</th>
+              <th className="p-3">Costo/U</th>
+              <th className="p-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ingredients.map((item) => {
+              const isLowStock = item.stock <= item.minStock;
+              return (
+                <tr key={item.id} className="border-b border-slate-800">
+                  <td className="p-3 font-semibold text-white">{item.name}</td>
+                  <td className="p-3">{item.category}</td>
+                  <td className="p-3">{item.stock} {item.unit}</td>
+                  <td className="p-3">{item.minStock} {item.unit}</td>
+                  <td className="p-3">${item.costPerUnit.toFixed(2)}</td>
+                  <td className="p-3">
+                    {isLowStock ? (
+                      <span className="bg-red-950 text-red-400 border border-red-800 text-xs px-2 py-1 rounded">
+                        Stock Bajo
+                      </span>
+                    ) : (
+                      <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs px-2 py-1 rounded">
+                        Ok
+                      </span>
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800">
-                {items.map((item) => {
-                  const bajoStock = item.stockActual <= item.stockMinimo;
-                  return (
-                    <tr key={item.id} className="hover:bg-slate-950/50">
-                      <td className="p-3 font-semibold text-slate-100">{item.nombre}</td>
-                      <td className="p-3 text-slate-400">{item.categoria}</td>
-                      <td className="p-3 font-bold">
-                        {item.stockActual} {item.unidad}
-                      </td>
-                      <td className="p-3">
-                        {bajoStock ? (
-                          <span className="px-2 py-1 text-xs rounded bg-red-950 text-red-400 border border-red-800 font-bold">
-                            ⚠️ Stock Bajo (&lt; {item.stockMinimo} {item.unidad})
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 text-xs rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
-                            ✓ Normal
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
