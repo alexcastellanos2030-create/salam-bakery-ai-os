@@ -1,24 +1,28 @@
-'use client';
-
+import type { Metadata } from 'next';
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
-import { usePathname } from 'next/navigation';
+import AlexCoreWidget from '@/components/AlexCoreWidget';
+
+export const metadata: Metadata = {
+  title: 'Alex Bakery AI-OS',
+  description: 'Sistema Operativo con Inteligencia Artificial para Alex Bakery',
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const esPaginaLogin = pathname === '/login';
-
   return (
     <html lang="es">
-      <body className="bg-slate-950 text-white min-h-screen flex">
-        {!esPaginaLogin && <Sidebar />}
-        <main className={`flex-1 bg-slate-950 ${!esPaginaLogin ? 'ml-64 p-6' : 'p-0'}`}>
+      <body className="bg-slate-950 text-slate-100 min-h-screen flex">
+        <Sidebar />
+        <main className="flex-1 p-6 overflow-y-auto">
           {children}
         </main>
+        
+        {/* WIDGET FLOTANTE DE SUPER USUARIO */}
+        <AlexCoreWidget />
       </body>
     </html>
   );
