@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function AlexCoreWidget() {
   const [expandido, setExpandido] = useState(false);
@@ -9,41 +9,135 @@ export default function AlexCoreWidget() {
     { rol: 'ia', texto: 'Alex Core IA v2.0 lista. ¿En qué puedo asistirte, Alexander?' }
   ]);
 
+  // Estado para la posición flotante movible (X, Y)
+  const [posicion, setPosicion] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [arrastrando, setArrastrando] = useState(false);
+  const offsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const fueArrastradoRef = useRef(false);
+
+  // Posicionar el botón por defecto en la esquina inferior derecha al cargar
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPosicion({
+        x: window.innerWidth - 80,
+        y: window.innerHeight - 80,
+      });
+    }
+  }, []);
+
+  // Controladores del evento de arrastre (Mouse / Touch)
+  const iniciarArrastre = (e: React.MouseEvent | React.TouchEvent) => {
+    setArrastrando(true);
+    fueArrastradoRef.current = false;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    offsetRef.current = {
+      x: clientX - posicion.x,
+      y: clientY - posicion.y,
+    };
+  };
+
+  useEffect(() => {
+    const mover = (e: MouseEvent | TouchEvent) => {
+      if (!arrastrando) return;
+      
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+      const nuevaX = clientX - offsetRef.current.x;
+      const nuevaY = clientY - offsetRef.current.y;
+
+      // Limitar el movimiento dentro de los bordes visibles de la pantalla
+      const xLimitada = Math.max(10, Math.min(window.innerWidth - 70, nuevaX));
+      const yLimitada = Math.max(10, Math.min(window.innerHeight - 70, nuevaY));
+
+      setPosicion({ x: xLimitada, y: yLimitada });
+      fueArrastradoRef.current = true;
+    };
+
+    const detenerArrastre = () => {
+      setArrastrando(false);
+    };
+
+    if (arrastrando) {
+      window.addEventListener('mousemove', mover);
+      window.addEventListener('mouseup', detenerArrastre);
+      window.addEventListener('touchmove', mover);
+      window.addEventListener('touchend', detenerArrastre);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', mover);
+      window.removeEventListener('mouseup', detenerArrastre);
+      window.removeEventListener('touchmove', mover);
+      window.removeEventListener('touchend', detenerArrastre);
+    };
+  }, [arrastrando]);
+
+  const handleClickBoton = () => {
+    // Si solo fue un clic sin arrastrar, expandir/colapsar el widget
+    if (!fueArrastradoRef.current) {
+      setExpandido(!expandido);
+    }
+  };
+
   const enviarInstruccion = (e: React.FormEvent) => {
     e.preventDefault();
     if (!comando.trim()) return;
 
-    setHistorial(prev => [
+    setHistorial((prev) => [
       ...prev,
       { rol: 'user', texto: comando },
-      { rol: 'ia', texto: `Ejecutando orden en planta: "${comando}". Modificación aplicada con éxito.` }
+      { rol: 'ia', texto: `Ejecutando orden en planta: "${comando}". Modificación aplicada con éxito.` },
     ]);
     setComando('');
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans select-none">
-      {/* BOTÓN FLOTANTE MINIMIZADO (PEQUEÑA ESFERA COMPACTA) */}
+    <div
+      style={{
+        position: 'fixed',
+        left: `${posicion.x}px`,
+        top: `${posicion.y}px`,
+        zIndex: 9999,
+      }}
+      className="font-sans select-none"
+    >
+      {/* BOTÓN FLOTANTE ULTRACOMPACTO Y ARRASTRABLE */}
       {!expandido ? (
         <button
-          onClick={() => setExpandido(true)}
-          className="w-12 h-12 rounded-full bg-slate-950 border-2 border-amber-400 text-amber-400 flex items-center justify-center shadow-[0_0_20px_rgba(250,204,21,0.4)] hover:scale-110 transition-all duration-300 group relative"
-          title="Abrir Asistente IA Alex Core"
+          onMouseDown={iniciarArrastre}
+          onTouchStart={iniciarArrastre}
+          onClick={handleClickBoton}
+          className={`w-12 h-12 rounded-full bg-slate-950 border-2 border-amber-400 text-amber-400 flex items-center justify-center shadow-[0_0_25px_rgba(250,204,21,0.4)] hover:scale-110 transition-transform duration-200 cursor-grab active:cursor-grabbing group relative ${
+            arrastrando ? 'cursor-grabbing scale-105' : ''
+          }`}
+          title="Arrastra para mover • Clic para interactuar con Alex Core IA"
         >
-          <span className="text-xl group-hover:rotate-12 transition-transform">🤖</span>
+          <span className="text-xl">🤖</span>
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 animate-ping" />
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 border-2 border-slate-950" />
         </button>
       ) : (
-        /* PANEL EXPANDIDO DE LA IA AL DAR INSTRUCCIONES */
-        <div className="w-80 sm:w-96 bg-slate-950/95 border border-amber-400/50 rounded-3xl p-4 shadow-[0_0_40px_rgba(250,204,21,0.25)] backdrop-blur-2xl space-y-3 animate-in fade-in zoom-in-95 duration-200">
+        /* WIDGET EXPANDIDO */
+        <div className="w-80 sm:w-96 bg-slate-950/95 border border-amber-400/50 rounded-3xl p-4 shadow-[0_0_50px_rgba(250,204,21,0.3)] backdrop-blur-2xl space-y-3 animate-in fade-in zoom-in-95 duration-200">
           
-          <div className="flex justify-between items-center border-b border-slate-800 pb-2.5">
+          <div
+            onMouseDown={iniciarArrastre}
+            onTouchStart={iniciarArrastre}
+            className="flex justify-between items-center border-b border-slate-800 pb-2.5 cursor-grab active:cursor-grabbing"
+          >
             <div className="flex items-center gap-2">
               <span className="text-lg">⚡</span>
               <div>
-                <h3 className="font-black text-amber-400 text-xs tracking-wider uppercase">ALEX CORE IA</h3>
-                <p className="text-[9px] text-slate-400 font-mono">Consola Mando Super Usuario</p>
+                <h3 className="font-black text-amber-400 text-xs tracking-wider uppercase">
+                  ALEX CORE IA
+                </h3>
+                <p className="text-[9px] text-slate-400 font-mono">
+                  Mando Super Usuario (Arrastra desde la barra)
+                </p>
               </div>
             </div>
             <button
