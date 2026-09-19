@@ -43,7 +43,7 @@ export default function InventoryPage() {
     <div className="p-6 max-w-6xl mx-auto space-y-8">
       <header>
         <h1 className="text-3xl font-black text-amber-500">Módulo de Inventario de Materia Prima</h1>
-        <p className="text-slate-400 text-sm">Control de stock e insumos para Panadería Salam</p>
+        <p className="text-slate-400">Control de stock e insumos para Panadería Alex</p>
       </header>
 
       {/* Formulario */}

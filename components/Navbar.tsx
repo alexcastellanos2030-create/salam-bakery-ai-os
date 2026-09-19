@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
       <div className="flex items-center gap-2">
-        <span className="text-xl font-black text-amber-500">Salam Bakery</span>
+        <span className="text-xl font-black text-amber-500">Alex Bakery</span>
         <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full">AI-OS</span>
       </div>
       <div className="flex gap-4">
