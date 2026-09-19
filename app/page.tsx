@@ -20,7 +20,7 @@ export default function DashboardAlex() {
     <main className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 font-sans">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-slate-800 gap-4">
         <div>
-          <h1 className="text-2xl font-black text-amber-400">SALAM BAKERY AI-OS</h1>
+          <h1 className="...">ALEX BAKERY AI-OS</h1>
           <p className="text-xs text-slate-400">Administrador Único: <span className="text-slate-200 font-bold">Alexander Segundo Castellanos Perozo</span></p>
         </div>
         <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full text-xs">
