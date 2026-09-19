@@ -3,40 +3,44 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const navItems = [
-  { name: 'Dashboard', path: '/' },
-  { name: 'Inventario', path: '/inventory' },
-  { name: 'Recetas', path: '/recipes' },
-  { name: 'Producción', path: '/production' },
-  { name: 'Ventas', path: '/orders' },
-];
-
 export default function Navbar() {
   const pathname = usePathname();
 
+  const menu = [
+    { name: 'Dashboard', href: '/' },
+    { name: '🥣 Producción y Trazabilidad', href: '/produccion' },
+    { name: '📋 Ficha Técnica', href: '/producto/ficha-tecnica' },
+    { name: '📖 Ficha Receta', href: '/producto/ficha-receta' },
+    { name: '🏷️ Etiquetas', href: '/producto/etiqueta' },
+    { name: '🖨️ Consolidados', href: '/impresion' },
+    { name: '👤 Perfil Trabajador', href: '/perfil' },
+    { name: '🛡️ Permisos (Admin)', href: '/admin/permisos' },
+  ];
+
   return (
-    <nav className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <span className="text-xl font-black text-amber-500">Alex Bakery</span>
-        <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full">AI-OS</span>
-      </div>
-      <div className="flex gap-4">
-        {navItems.map((item) => {
-          const isActive = pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`text-sm font-medium px-3 py-1.5 rounded-lg transition ${
-                isActive
-                  ? 'bg-amber-500 text-black font-bold'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              {item.name}
-            </Link>
-          );
-        })}
+    <nav className="bg-slate-900 border-b border-slate-800 p-4 print:hidden">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <Link href="/" className="text-xl font-black text-amber-500 tracking-wider">
+          ALEX BAKERY <span className="text-white text-xs font-normal">AI-OS</span>
+        </Link>
+        <div className="flex flex-wrap gap-2 text-xs">
+          {menu.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition ${
+                  isActive
+                    ? 'bg-amber-500 text-slate-950 font-bold'
+                    : 'bg-slate-950 text-slate-300 border border-slate-800 hover:bg-slate-800'
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

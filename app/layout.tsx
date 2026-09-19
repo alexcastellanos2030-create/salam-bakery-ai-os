@@ -1,22 +1,24 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
+'use client';
 
-export const metadata: Metadata = {
-  title: "Alex Bakery AI-OS",
-  description: "Sistema de gestión de producción para Panadería Alex",
-};
+import './globals.css';
+import Sidebar from '@/components/Sidebar';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const pathname = usePathname();
+  const esPaginaLogin = pathname === '/login';
+
   return (
     <html lang="es">
-      <body className="bg-slate-950 text-slate-100 min-h-screen">
-        <Navbar />
-        <main>{children}</main>
+      <body className="bg-slate-950 text-white min-h-screen flex">
+        {!esPaginaLogin && <Sidebar />}
+        <main className={`flex-1 bg-slate-950 ${!esPaginaLogin ? 'ml-64 p-6' : 'p-0'}`}>
+          {children}
+        </main>
       </body>
     </html>
   );
