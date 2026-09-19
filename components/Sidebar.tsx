@@ -119,3 +119,9 @@ export default function Sidebar() {
     </aside>
   );
 }
+<Link
+  href="/admin/seguridad"
+  className="flex items-center gap-2 p-2 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-yellow-400 font-bold transition text-xs"
+>
+  <span>🛡️</span> Normas y Manual de Seguridad
+</Link>
