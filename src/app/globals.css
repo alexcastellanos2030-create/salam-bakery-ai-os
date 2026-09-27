@@ -1,0 +1,12 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SOLO los campos editables llevan fondo blanco y texto oscuro */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}

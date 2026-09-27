@@ -1,0 +1,35 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // 1. Permitir acceso libre únicamente al Portal Login, archivos estáticos y rutas internas de Next.js
+  if (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next();
+  }
+
+  // 2. Verificar la credencial de seguridad militar (Token de sesión activo)
+  const tokenSeguridad = request.cookies.get('alex_security_clearance');
+
+  // 3. Si no hay token autorizado, la IA bloquea el acceso y redirige al Login
+  if (!tokenSeguridad || tokenSeguridad.value !== 'root_authorized_alex_2026') {
+    const urlLogin = new URL('/login', request.url);
+    urlLogin.searchParams.set('alert', 'access_denied_military_protocol');
+    return NextResponse.redirect(urlLogin);
+  }
+
+  // 4. Si el token es válido, permitir el acceso al sistema
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
+};
