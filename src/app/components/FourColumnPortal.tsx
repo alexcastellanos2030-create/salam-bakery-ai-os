@@ -66,7 +66,7 @@ export default function FourColumnPortal({
     e.preventDefault();
     setOtpSent(true);
   };
-export default function FourColumnPortal({ ... }) {
+
   return (
     <div className="w-full min-h-screen bg-[#050508] text-white flex flex-col items-center justify-start py-8 px-4">
       
@@ -76,8 +76,8 @@ export default function FourColumnPortal({ ... }) {
           Alex Bakery AI-OS
         </h1>
         <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">
-          Plataforma Industrial de Gestión • Taller de Producción
-        </p>
+          Plataforma Industrial de Gestión         
+      </p>
       </div>
 
       {/* CONTENIDO CENTRAL: SUB-PORTAL O GRILLA DE 4 COLUMNAS */}
@@ -237,10 +237,10 @@ export default function FourColumnPortal({ ... }) {
             </form>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-[1500px] mx-auto w-full mt-4">
+          <div className="flex flex-row flex-wrap justify-center items-stretch gap-5 max-w-[1700px] mx-auto w-full mt-4 px-2">
             
             {/* COLUMNA 1: ACCESO RESTRINGIDO */}
-            <div className="bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
+            <div className="w-[265px] bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-5 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-2xl text-orange-400">
@@ -280,7 +280,7 @@ export default function FourColumnPortal({ ... }) {
             </div>
 
             {/* COLUMNA 2: REGISTRO PERSONAL */}
-            <div className="bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
+            <div className="w-[265px] bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-2xl text-orange-400">
@@ -313,7 +313,7 @@ export default function FourColumnPortal({ ... }) {
             </div>
 
             {/* COLUMNA 3: ACCESO SMS OTP */}
-            <div className="bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
+            <div className="w-[265px] bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-2xl text-orange-400">
@@ -355,7 +355,7 @@ export default function FourColumnPortal({ ... }) {
             </div>
 
             {/* COLUMNA 4: BIOMETRÍA AVANZADA */}
-            <div className="bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
+            <div className="w-[265px] bg-[#090a0f] border-2 border-orange-500/50 hover:border-orange-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl transition-all">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-2xl text-orange-400">
@@ -402,7 +402,7 @@ export default function FourColumnPortal({ ... }) {
 
       {/* PIE DE PÁGINA */}
       <div className="text-center mt-6 text-[10px] text-gray-500 font-bold uppercase tracking-wider">
-        Alex Bakery AI-OS © 2026 — Plataforma Industrial de Genitiva / Taller de Producción
+        Alex Bakery AI-OS © 2026 — Plataforma Industrial
       </div>
 
     </div>
