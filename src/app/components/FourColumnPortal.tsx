@@ -1,4 +1,3 @@
-// src/app/components/FourColumnPortal.tsx
 'use client';
 import { useState, useEffect } from 'react';
 import { Lock, UserPlus, MessageSquare, Fingerprint, ArrowRight, ShieldAlert, Clock, User, Mail, Key } from 'lucide-react';
@@ -77,7 +76,7 @@ export default function FourColumnPortal({
         </h1>
         <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">
           Plataforma Industrial de Gestión         
-      </p>
+        </p>
       </div>
 
       {/* CONTENIDO CENTRAL: SUB-PORTAL O GRILLA DE 4 COLUMNAS */}
@@ -115,7 +114,7 @@ export default function FourColumnPortal({
                     type="text" 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
 
@@ -127,7 +126,7 @@ export default function FourColumnPortal({
                     type="text" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
 
@@ -140,7 +139,7 @@ export default function FourColumnPortal({
                     value={secondKey}
                     onChange={(e) => setSecondKey(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
 
@@ -153,7 +152,7 @@ export default function FourColumnPortal({
                       type="text" 
                       value={fingerprintStatus} 
                       readOnly
-                      className="w-full bg-gray-100 text-gray-700 border border-orange-500/30 rounded-xl px-3 py-2.5 text-xs font-medium outline-none"
+                      className="w-full bg-[#121620]/60 text-gray-300 border border-orange-500/30 rounded-xl px-3 py-2.5 text-xs font-medium outline-none"
                     />
                     <button 
                       type="button" 
@@ -175,7 +174,7 @@ export default function FourColumnPortal({
                       value={smsOtpValue}
                       onChange={(e) => setSmsOtpValue(e.target.value)}
                       placeholder="Código 6 dígitos"
-                      className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                     />
                     <button 
                       type="button" 
@@ -196,7 +195,7 @@ export default function FourColumnPortal({
                       type="text" 
                       value={facialStatus} 
                       readOnly
-                      className="w-full bg-gray-100 text-gray-700 border border-orange-500/30 rounded-xl px-3 py-2.5 text-xs font-medium outline-none"
+                      className="w-full bg-[#121620]/60 text-gray-300 border border-orange-500/30 rounded-xl px-3 py-2.5 text-xs font-medium outline-none"
                     />
                     <button 
                       type="button" 
@@ -260,7 +259,7 @@ export default function FourColumnPortal({
                       value={masterKeyInput}
                       onChange={(e) => setMasterKeyInput(e.target.value)}
                       placeholder="Ej: Root_Master_2026###"
-                      className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                     />
                   </div>
                   <button 
@@ -335,7 +334,7 @@ export default function FourColumnPortal({
                       type="text"
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
-                      className="w-full bg-white text-gray-900 border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full bg-[#121620] text-white border border-orange-500/40 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                     />
                   </div>
                   <button 
