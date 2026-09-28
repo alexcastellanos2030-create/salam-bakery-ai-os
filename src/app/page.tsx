@@ -1,7 +1,7 @@
-// app/page.tsx
+// src/app/page.tsx
 'use client';
 import { useState } from 'react';
-import FourColumnPortal from '@/app/components/FourColumnPortal';
+import FourColumnPortal from './components/FourColumnPortal';
 
 export default function Page() {
   const [statusMsg, setStatusMsg] = useState('');
